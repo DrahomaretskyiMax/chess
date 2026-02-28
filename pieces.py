@@ -1,5 +1,18 @@
 from abc import ABC, abstractmethod
 from movements import BoardMovements
+import functools
+
+def print_board(func):
+    @functools.wraps(func)
+    def wrapper(self, *args, **kwargs):
+        result = func(self, *args, **kwargs)
+
+        if self.board is not None:
+            self.board.print_board()
+
+        return result
+
+    return wrapper
 
 class BaseChessPiece(ABC):
     def __init__(self, color, name, symbol, identifier):
@@ -98,7 +111,7 @@ class BaseChessPiece(ABC):
     def define_board(self, board):
         self.board = board
 
-    @abstractmethod
+    @print_board
     def move(self, movement):
         print(movement)
 
