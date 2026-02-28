@@ -9,6 +9,7 @@ class BaseChessPiece(ABC):
         self.identifier = identifier
         self.position = "None"
         self.is_alive = True
+        self.board = None
 
     # ********** property color - (setter/getter) ***********
     @property
@@ -81,6 +82,21 @@ class BaseChessPiece(ABC):
             self.__is_alive = value
         else:
             raise ValueError("is_alive have to be a bool")
+    
+    # ********** property board - (setter/getter) ***********
+    @property
+    def board(self):
+        return self.__board
+
+    @board.setter
+    def board(self, value) -> None:
+        self.__board = value
+
+    def set_initial_position(self, position):
+        self.position = position
+
+    def define_board(self, board):
+        self.board = board
 
     @abstractmethod
     def move(self, movement):
