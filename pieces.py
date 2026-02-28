@@ -14,6 +14,18 @@ def print_board(func):
 
     return wrapper
 
+def save_board(func):
+    @functools.wraps(func)
+    def wrapper(self, *args, **kwargs):
+        result = func(self, *args, **kwargs)
+
+        if self.board is not None:
+            self.board.save_board_state()
+
+        return result
+
+    return wrapper
+
 class BaseChessPiece(ABC):
     def __init__(self, color, name, symbol, identifier):
         self.color = color
@@ -111,6 +123,7 @@ class BaseChessPiece(ABC):
     def define_board(self, board):
         self.board = board
 
+    @save_board
     @print_board
     def move(self, movement):
         print(movement)
